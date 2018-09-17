@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="cn.hnust.domain">
+	<!-- 指定实体类与数据库中的表 -->
+	<class name="SysUser" table="cst_sysuser">
+	<!-- 指定实体类中的实体和数据库中的名称 ,id为自增-->
+		<id name="userId" column="user_id">
+			<generator class="native"></generator>
+		</id>
+		<property name="userName" column="user_name"></property>
+		<property name="userPassword" column="user_password"></property>
+		<property name="userState" column="user_state"></property>
+	<!-- 
+		一对多关系映射：主表实体的映射配置
+		涉及的标签：
+			set：
+				作用：用于配置set集合属性
+				属性：
+					name：指定实体类中set集合的属性名称
+					table：指定中间表的名称
+			 key：
+			 	作用：用于映射外键字段
+			 	属性：
+			 		column：指定的是当前实体在中间表的外键字段名称
+			 many-to-many:
+			 	作用：用于映射多对多的关系
+			 	属性:
+			 		class:对方的实体类名称
+			 		cloumn:对方在中间表中的外键字段名称
+	 -->
+	 <set name="roles" table="user_role_ref" inverse="true" cascade="save-update,delete">
+	 	<key column="user_id"></key>
+	 	<many-to-many class="SysRole" column="role_id"/>
+	 </set>
+ </class>
+</hibernate-mapping>
